@@ -1,13 +1,13 @@
 #Board Layout
 
-#1
-#2
-#3
-#4
-#5
-#6
-#7
 #8
+#7
+#6
+#5
+#4
+#3
+#2
+#1
 #   A   B   C   D   E   F   G   H
 
 #Create a class for a piece
@@ -71,6 +71,7 @@ class GamePiece:
         self.C = Color                  #Color of piece
         self.L = True                   #Check to see if its alive
         self.moveCount = 0
+        self.type = Null
 
     #Check Move (implemented in subclass) This Will check to see if the move is legal
     #Whether the piece actually goes there, is up to the play game file to see if there is another piece there
@@ -80,45 +81,46 @@ class GamePiece:
 class pawn(GamePiece):
     def __init__():
         GamePiece.__init__(Vertical,Horizontal,Color)
+        self.type = 'P'
 
-    def checkMove(VertIn, HorizIn):         #Returns True if move is legal
-        #Check to see if the input value is valid
-        #Check to see if there is not a piece of the same color in that spot
-
-        #if White, check if vertIn is larger by 1
-        if self.C = 'white':
-            if Horiz        #If the Horizontal value input is the same as the current horizontl Location
-                if (VertIn == self.V + 1)
-                    return True              #Legal Move
-                if (VertIn == self.V + 2) && (self.moveCount == 0)  #Double move on first move rule
-                    return True
-            else            #Not in the Same Horizontal Location
-                #Must figure out how to check if there is another piece in that Location
-        #if Black, check if VertIn is smaller by 1
-        #if self.moveCount is 0, then you can move by two spaces if its legal
-        #if theres another piece
+    # def checkMove(VertIn, HorizIn):         #Returns True if move is legal
+    #     #Check to see if the input value is valid
+    #     #Check to see if there is not a piece of the same color in that spot
+    #
+    #     #if White, check if vertIn is larger by 1
+    #     if self.C = 'white':
+    #         if Horiz        #If the Horizontal value input is the same as the current horizontl Location
+    #             if (VertIn == self.V + 1)
+    #                 return True              #Legal Move
+    #             if (VertIn == self.V + 2) && (self.moveCount == 0)  #Double move on first move rule
+    #                 return True
+    #         else            #Not in the Same Horizontal Location
+    #             #Must figure out how to check if there is another piece in that Location
+    #     #if Black, check if VertIn is smaller by 1
+    #     #if self.moveCount is 0, then you can move by two spaces if its legal
+    #     #if theres another piece
 
 class castle(GamePiece):
     def __init__():
         GamePiece.__init__(Vertical,Horizontal,Color)
-    def checkMove():
+        self.type = 'C'
 
 class bishop(GamePiece):
     def __init__():
         GamePiece.__init__(Vertical,Horizontal,Color)
-    def checkMove():
+        self.type = 'B'
 
 class knight(GamePiece):
     def __init__():
         GamePiece.__init__(Vertical,Horizontal,Color)
-    def checkMove():
+        self.type = 'N'
 
 class queen(GamePiece):
     def __init__():
         GamePiece.__init__(Vertical,Horizontal,Color)
-    def checkMove():
+        self.type = 'Q'
 
 class king(GamePiece):
     def __init__():
         GamePiece.__init__(Vertical,Horizontal,Color)
-    def checkMove():
+        self.type = 'K'
