@@ -1,0 +1,62 @@
+I am going to try to revive this chess game and totally redesign it.
+
+main chunks of the program
+(isGoodMove Function)
+(Movesets)
+(piece class)
+(drawBoard Function)
+(Initiating Function)
+
+Minor chunks
+(isInTheWay function)
+
+Foreseeable Problems
+Castling
+check and checkmate
+
+PIECE CLASS
+Data values
+type (pawn, bishop etc.)
+color (white, black)
+Location(Array [x,y])
+move count
+drawn(reduces number of checks when drawing the board)
+
+Board Definition
+Y
+8
+7
+6
+5
+4
+3
+2
+1
+0 1 2 3 4 5 6 7 8 X
+
+MOVESETS (all moveset rules y values negated in opposite color)
+pawn
+Y+1 or (Y+1 & X+1 on Capture) or (Y+2 on first move)
+bishop
+(Y+/-Z & X+/-Z)
+castle
+(Y+/-Z) or (X+/-Z)
+knight
+(Y+/-2 & X+/-1) or (Y+/-1 & X+/-2)
+queen
+(Y+/-Z) or (X+/-Z) or (Y+/-Z & X+/-Z)
+king
+Y+/-1 &/or X+/-1
+
+ISGOODMOVE FUNCTION
+This function will be a series of nested checking if statements that checks the movesets
+and other factors to determine if it is a good move.
+
+    if new location is on the board
+    if new location already has team piece (or there is a piece in the way)(isInTheWay)
+    if move is capturing
+    if move is in moveset
+
+DRAWBOARD FUNCTION
+For every square on the board, search through the piece arrays to see if there is a piece there
+draw the specific piece Character in the spot and iterate through entire board
