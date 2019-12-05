@@ -13,3 +13,4 @@ class piece:
         self.y = posy
         self.movecount = 0
         self.drawn = False
+        self.queenmove = ""

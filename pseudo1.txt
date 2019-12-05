@@ -1,11 +1,26 @@
 I am going to try to revive this chess game and totally redesign it.
 
+#Program Flow
+PlayGame.py
+    ChessVisualiztion.py
+        buildboard()
+        draw(board) starting board
+Ask for Player 1 input
+    Check isGoodMove()
+        update data structures
+            check if king is killed, trigger game over
+        Change turn to other player
+        redraw board
+        isInCheck() looking for king in danger
+            check for check mate, trigger game over
+    error message and retry move input
+
 main chunks of the program
 (isGoodMove Function)
 (Movesets)
-(piece class)
-(drawBoard Function)
-(Initiating Function)
+DONE (piece class)
+DONE (drawBoard Function)
+DONE (Initiating Function)
 
 Minor chunks
 (isInTheWay function)
@@ -14,7 +29,7 @@ Foreseeable Problems
 Castling
 check and checkmate
 
-PIECE CLASS
+DONE PIECE CLASS
 Data values
 type (pawn, bishop etc.)
 color (white, black)
@@ -35,15 +50,16 @@ Y
 0 1 2 3 4 5 6 7 8 X
 
 MOVESETS (all moveset rules y values negated in opposite color)
-pawn
+DONE pawn
 Y+1 or (Y+1 & X+1 on Capture) or (Y+2 on first move)
-bishop
+DONE bishop
 (Y+/-Z & X+/-Z)
-castle
+DONE castle
 (Y+/-Z) or (X+/-Z)
-knight
+
+DONE knight
 (Y+/-2 & X+/-1) or (Y+/-1 & X+/-2)
-queen
+DONE queen
 (Y+/-Z) or (X+/-Z) or (Y+/-Z & X+/-Z)
 king
 Y+/-1 &/or X+/-1
