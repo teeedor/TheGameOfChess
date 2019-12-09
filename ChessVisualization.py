@@ -59,7 +59,7 @@ def buildBoard():
             print("COUNT, TYPE,COLOR,X,Y: "+count+x.type+","+x.color+","+str(x.x)+","+str(x.y))
 
     return pieceList
-#this function just read the piecce to return what character to print to the board
+#this function just reads the piece to return what character to print to the board
 def symbolCheck(piece):
     if piece.color=="white":
         result = "w"
@@ -81,11 +81,13 @@ def symbolCheck(piece):
 def draw(pieces):
     posx = 1
     posy = 1
-    #run through drawiing the board drawing xes where there are no pieces
+    ycount = 8
+    #run through drawing the board drawing xes where there are no pieces
+    print("Y")
     for posy in range (1, 9): #y values of board
-        xline = ''
+        xline = str(ycount)+' '
         for posx in range(1,9): #x values of board
-            #iterate through entire pieccelist to see if there is a piece for this location
+            #iterate through entire piecelist to see if there is a piece for this location
             full = False #this will be set to true if a piece is in this spot
             for i in range(0,32):
                 #print("This one: "+ str(i))
@@ -97,4 +99,7 @@ def draw(pieces):
                         full = True
             if full == False:
                 xline= xline+'  '
+
         print(xline)
+        ycount -= 1
+    print('0  1  2  3  4  5  6  7  8 X')
