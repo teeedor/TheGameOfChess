@@ -1,49 +1,107 @@
-#Turning these sections into functions to write less code for writing the queen function
+#Structure of functions file
+# move()
+#     isGoodMove()
+#         isInMoveSet()
+#             isBishopMove()
+#             isCastleMove()
+#         isInTheWay()
+#
+#     updateBoard()
+#         addPrisoner()
+#
+#DONE NOT TESTED
+def testMove(board, piece, endx, endy, testno):
+    if isGoodMove(board, piece, endx, endy):
+        print("Good Move")
+    else:
+        print("Piece won't move: "+piece.type+str(testno))
+        print("from "+str(piece.x)+', '+str(piece.y)+' to '+str(endx)+', '+str(endy))
+#DONE NOT TESTED
+def updateBoard(board, movepiece, endx, endy, capture, prisonerList):
+    #At this point, the move should be legal,
+    #this functions does not check, it just updates
+    #search the board for the specific piece based on first location
+    if capture:
+        for piece in board:
+            if(piece.x == endx) and (piece.y == endy):
+                #remove the captured piece from the board
+                board.remove(piece)
+    for piece in board:
+        if (piece.x == movepiece.x) and (piece.y == movepiece.y):
+            piece.x = endx
+            piece.y = endy
+            piece.movecount += 1
+            return board
+        else:
+            print("Cannot find piece to move")
+#FINISH CASTLE STYLE MOVEMENT
+def maybeInTheWay(board, piece, endx, endy):
+#return 1 = good move, nothing in the way
+#return 2 = capturing piece
+#return 3 = team piece in the way
+    type = piece.type
+    xfactor = 1
+    yfactor = 1
+
+    #check the path
+    if type ==("bishop") or ("castle") or ("queen"):
+        deltax = endx - piece.x
+        deltay = endy - piece.y
+        #castle Style movement
+        if(deltax == 0 and deltay != 0) or (deltax != 0 and deltay == 0):
+            pass
+        #bishop style movement
+        if deltax < 0:
+            xfactor = -1
+        if deltay < 0:
+            yfactor = -1
+        iterx = piece.x
+        itery = piece.y
+        #check the correct diagonal from starting pos
+        for i in range(0, abs(deltax))
+            #not checking the last location, next part of function does that
+            if (iterx == endx) and (itery == endy)
+                break
+            else:
+                #check to see if there is a piece in the between location
+                for p in board:
+                    if(p.x == iterx) and (p.y == itery)
+                        return 4
+                    else:
+                        iterx = iterx + (xfactor*1)
+                        itery = itery + (yfactor*1)
+
+
+    #check final Location for all pieces
+    for p in board:
+        if (p.x == endx) and (p.y == endy):
+            if piece.color == p.color:
+                #team piece is in the way
+                return 3
+            else:
+                #capturing opposing team piece
+                return 2
+#DONE NOT TESTED
 def isBishopMove(piece, endx, endy):
     for z in range(1,9):
-        if (((z+piece.x)==endx) and ((z+piece.y)==endy)) or (((z-piece.x)==endx) and ((z+piece.y)==endy)) or (((z+piece.x)==endx) and ((z-piece.y)==endy)) or (((z-piece.x)==endx) and ((z-piece.y)==endy)):
+        if (
+            (((z+piece.x)==endx) and ((z+piece.y)==endy)) or
+            (((z-piece.x)==endx) and ((z+piece.y)==endy)) or
+            (((z+piece.x)==endx) and ((z-piece.y)==endy)) or
+            (((z-piece.x)==endx) and ((z-piece.y)==endy))
+            ):
             piece.queenmove = "bishop"
             return True
     #if we drop out of the loop, then it will never be completed
     return False
-
+#DONE NOT TESTED
 def isCastleMove(piece, endx, endy):
     if (piece.y == endy) or (piece.x == endx):
         piece.queenmove = "castle"
         return True
     else:
         return False
-
-
-#def bishopCollision(board, piece, endx, endy):
-
-#def castleCollision(board, piece, endx, endy):
-
-#NEED TO WORK ON
-def isInTheWay(board, piece, endx, endy):
-#in the way is on the location or in the way
-    type = piece.type
-    if type ==("bishop") or ("castle") or ("queen"):
-        #check the path
-        if (piece.x-endx==0) or (piece.y-endy==0): #castle style movement
-            if (piece.x-endx==0):
-                #Make sure the range on this for loop is correct
-                #for z in range(piece.x, endx):
-                    #if
-                return True #placeholder
-            else:
-                return False
-        #bishop Style Movement
-        #if ()
-    for p in board: #check final Location for all pieces
-        if (p.x == endx) and (p.y == endy):
-            if piece.color == p.color:
-                return True #piece is in the way
-            else:
-                return False #allow capture
-
-
-#NOT TESTED
+#NOT TESTED - just returns whether or not the move is in the allowable moves for the piece
 def isInMoveSet(piece, capture, endx, endy):
     #checks to see what color the piece is to allow for both color pawns to work
     if (piece.color == "white"):
@@ -52,17 +110,12 @@ def isInMoveSet(piece, capture, endx, endy):
         yNegSwitch = -1
     #pawn - Not Tested But Completed
     if piece.type =="pawn":
-        #check for white and black pawns
-        #white
         if (
             ((endx == piece.x) and (endy == piece.y+(1*yNegSwitch))) or
             ((piece.movecount==0) and (endx == piece.x) and (endy == piece.y+(2*yNegSwitch))) or
             (capture and (endy == piece.y+(1*yNegSwitch)) and ((endx == piece.x-1)or(endx == piece.x+1)))
             ):
-            if isInTheWay(board, piece, endx, endy):
-                return False
-            else:
-                return True
+            return True
         else:
             return False
 
@@ -70,21 +123,14 @@ def isInMoveSet(piece, capture, endx, endy):
     if piece.type =="bishop":
         #need to take account of the 4 different move directions
             if isBishopMove(piece, endx, endy):
-                if isInTheWay(board, piece, endx ,endy):
-                    return False
-                else:
-                    return True
+                return True
             else:
-                False
+                return False
 
     #castle - Not Tested But Completed
     if piece.type == "castle":
         if isCastleMove(piece, endx, endy):
-            #as long as the y value doesn't change
-            if isInTheWay(board, piece, endx, endy):
-                return False
-            else:
-                return True
+            return True
         else:
             return False
     #knight - Not Tested But Completed
@@ -99,19 +145,13 @@ def isInMoveSet(piece, capture, endx, endy):
             ((piece.x-2==endx) and (piece.y+1==endy)) or
             ((piece.x-1==endx) and (piece.y+2==endy))
             ):
-            if isInThWay(board, piece, endx, endy):
-                return False
-            else:
-                return True
+            return True
         else:
             return False
     #queen - Not Tested But Completed
     if piece.type == "queen":
         if isBishopMove(piece, endx, endy) or isCastleMove(piece, endx, endy):
-            if isInThWay(board, piece, endx, endy):
-                return False
-            else:
-                return True
+            return True
         else:
             return False
     #king - Not Tested But Completed
@@ -124,18 +164,13 @@ def isInMoveSet(piece, capture, endx, endy):
             ((piece.y-1==endy) and (piece.x-1==endx)) or
             ((piece.y+1==endy) and (piece.x-1==endx))
             ):
-            if isIntTheWay(board, piece, endx, endy):
-                return False
-            else:
-                return True
+            return True
         else:
             return False
-
-#NEED TO WORK ON
+#MIGHT ONLY NEED THIS FOR PAWN MOVESET
 def isCapturing():
-    return False
-
-#Not Tested
+    pass
+#DONE NOT TESTED
 def areBothKingsAlive(board):
     white = False
     black = False
@@ -148,15 +183,7 @@ def areBothKingsAlive(board):
         return True
     else:
         return False
-
-#Not Completed
-def testMove(board, piece, endx, endy, testno):
-    if isGoodMove(board, piece, endx, endy):
-        carl = 7
-    else:
-        print("Piece won't move: "+piece.type+str(testno))
-        print("from "+str(piece.x)+', '+str(piece.y)+' to '+str(endx)+', '+str(endy))
-#highest level check
+#DONE NOT TESTED
 def isGoodMove(board, piece, endx, endy):
         capture = False
         #if new location is on the board
@@ -168,8 +195,19 @@ def isGoodMove(board, piece, endx, endy):
             print("Invalid Move, not in moveset")
             return False
         #if new location already has team piece (or there is a piece in the way)(isInTheWay)
-        if isInTheWay(board, piece, endx, endy):
-            print("Invalid move, Team Piece in the way")
-            return False
-        #if move is capturing, this is mostly for pawns
-        capture = isCapturing(board, piece, endx, endy)
+        ms = maybeInTheWay(board, piece, endx, endy)
+        if ms == 1: #nothing in the way
+            pass
+        if ms == 2: #capturing the opposite teams piece
+            capture = True
+        if ms == 3: #same team piece in the way
+            pass
+        if ms == 4: #Opposing team piece in path
+            pass
+#move() will check to see if the move is valid, then update the board with the new piece positions
+def move(board, piece, endx, endy):
+    #check to see if it is a good move
+    if isGoodMove(board, piece, endx, endy):
+        updateBoard()
+    #update board to reflect new move
+    pass
