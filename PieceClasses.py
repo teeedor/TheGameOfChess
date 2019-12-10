@@ -7,10 +7,8 @@
 
 class piece:
     def __init__(self, TYPE, COLOR, posx, posy):
-        self.type=TYPE
+        self.type = TYPE
         self.color = COLOR
         self.x = posx
         self.y = posy
         self.movecount = 0
-        self.drawn = False
-        self.queenmove = ""
