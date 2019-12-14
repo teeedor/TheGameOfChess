@@ -186,7 +186,7 @@ def isOnBoard(endx, endy):
     else:
         return True
 #DONE NOT TESTED
-def isGoodMove(board, piece, endx, endy):
+def maybeGoodMove(board, piece, endx, endy):
         capture = False
         #if new location is on the board
         if not isOnBoard(endx, endy):
@@ -198,95 +198,21 @@ def isGoodMove(board, piece, endx, endy):
         #if new location already has team piece (or there is a piece in the way)(isInTheWay)
         ms = maybeInTheWay(board, piece, endx, endy)
         if ms == 1: #nothing in the way
-            pass
+            return 1
         if ms == 2: #capturing the opposite teams piece
-            capture = True
+            capture = 2
         if ms == 3: #same team piece in the way
-            pass
+            return 3
         if ms == 4: #Opposing team piece in path
-            pass
+            return 4
 #move() will check to see if the move is valid, then update the board with the new piece positions
 def move(board, piece, endx, endy):
-    #check to see if it is a good move
-    if isGoodMove(board, piece, endx, endy):
+    moveOption = maybeGoodMove(board, piece, endx, endy)
+    #1: nothing in the way
+    if moveOption == 1:
         updateBoard()
+    #2: capturing
+    #3: same team piece in way
+    #4: oppossing team piece in the way
     #update board to reflect new move
     pass
-#TESTING FUNCTIONS-----------------------------------------------
-#Functions used for testing the functions within this file
-#This function displays the test info in a readable format
-def displaytestisBishopMove(piece, testx, testy):
-    stx = str(piece.x)
-    sty = str(piece.y)
-    sttx =str(testx)
-    stty =str(testy)
-    print("FROM "+stx+", "+sty+" TO "+sttx+", "+stty)
-    if(isBishopMove(piece, testx, testy)):
-        print("Success")
-    else:
-        print("Failed")
-    print("")
-#This function displays the test info in a readable format
-def displaytestisCastleMove(piece, testx, testy):
-    stx = str(piece.x)
-    sty = str(piece.y)
-    sttx =str(testx)
-    stty =str(testy)
-    print("FROM "+stx+", "+sty+" TO "+sttx+", "+stty)
-    if(isCastleMove(piece, testx, testy)):
-        print("Success")
-    else:
-        print("Failed")
-    print("")
-#This function displays the test info in a readable format
-def displaytestisOnBoard(testx, testy):
-    sttx =str(testx)
-    stty =str(testy)
-    print(sttx+", "+stty)
-    if(isOnBoard(testx, testy)):
-        print("Success")
-    else:
-        print("Failed")
-    print("")
-#This will generate all test cases to try
-def testisBishopMove(p):
-    print("Testing isBishopMove(): Success")
-    z = 1
-    while z < 8:
-        #+x+y
-        xfactor = yfactor = 1
-        displaytestisBishopMove(p, p.x+(z*xfactor), p.y+(z*yfactor))
-        #-x+y
-        xfactor = -1
-        displaytestisBishopMove(p, p.x+(z*xfactor), p.y+(z*yfactor))
-        #+x-y
-        xfactor = 1
-        yfactor = -1
-        displaytestisBishopMove(p, p.x+(z*xfactor), p.y+(z*yfactor))
-        #-x-y
-        xfactor = yfactor = -1
-        displaytestisBishopMove(p, p.x+(z*xfactor), p.y+(z*yfactor))
-        z += 1
-    print("Testing isBishopMove(): Failures")
-    displaytestisBishopMove(p, p.x+3, p.y)
-#Generate tests for castle movements
-def testisCastleMove(p):
-    print("Testing isCastleMove(): Success")
-    z=1
-    while z < 8:
-        displaytestisCastleMove(p, p.x+z, p.y)
-        displaytestisCastleMove(p, p.x-z, p.y)
-        displaytestisCastleMove(p, p.x, p.y+z)
-        displaytestisCastleMove(p, p.x, p.y-z)
-        z +=1
-    print("Testing isCastleMove(): Failures")
-    displaytestisCastleMove(p, p.x+1, p.y+1)
-#Generate tests for checking withing board bounds
-def testisOnBoard():
-    displaytestisOnBoard(1,1)
-    displaytestisOnBoard(4,4)
-    displaytestisOnBoard(8,8)
-    displaytestisOnBoard(9,9)
-    displaytestisOnBoard(-1,-1)
-    displaytestisOnBoard(1,-1)
-    displaytestisOnBoard(-1,1)
