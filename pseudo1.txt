@@ -56,7 +56,6 @@ DONE bishop
 (Y+/-Z & X+/-Z)
 DONE castle
 (Y+/-Z) or (X+/-Z)
-
 DONE knight
 (Y+/-2 & X+/-1) or (Y+/-1 & X+/-2)
 DONE queen
@@ -76,3 +75,8 @@ and other factors to determine if it is a good move.
 DRAWBOARD FUNCTION
 For every square on the board, search through the piece arrays to see if there is a piece there
 draw the specific piece Character in the spot and iterate through entire board
+
+Small Function Testing
+One function for testing.
+I have two functions, one for testing and one for displaying the test, need to
+reduce number of redundant functions.

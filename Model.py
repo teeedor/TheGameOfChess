@@ -2,10 +2,10 @@
 # move()
 #     isGoodMove()
 #         isOnBoard()*
-#         isInMoveSet()
+#         isInMoveSet()*
 #             isBishopMove()*
 #             isCastleMove()*
-#         isInTheWay()
+#         maybeInTheWay()
 #
 #     updateBoard()
 #         addPrisoner()
@@ -96,7 +96,7 @@ def isCastleMove(piece, endx, endy):
         return True
     else:
         return False
-#NOT TESTED - just returns whether or not the move is in the allowable moves for the piece
+#DONE TESTED!
 def isInMoveSet(piece, capture, endx, endy):
     #checks to see what color the piece is to allow for both color pawns to work
     if (piece.color == "white"):
@@ -152,8 +152,11 @@ def isInMoveSet(piece, capture, endx, endy):
     #king - Not Tested But Completed
     if piece.type == "king":
         if (
-            (piece.x+1==endx) or (piece.x-1==endx) or
-            (piece.y+1==endy) or (piece.y-1==endy) or
+            ((piece.x+1==endx) and (piece.y==endy)) or
+            ((piece.x-1==endx) and (piece.y==endy)) or
+            ((piece.x==endx) and (piece.y+1==endy)) or
+            ((piece.x==endx) and (piece.y-1==endy)) or
+            ((piece.y+1==endy) and (piece.y-1==endy)) or
             ((piece.y+1==endy) and (piece.x+1==endx)) or
             ((piece.y-1==endy) and (piece.x+1==endx)) or
             ((piece.y-1==endy) and (piece.x-1==endx)) or
