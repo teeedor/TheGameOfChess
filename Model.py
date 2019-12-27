@@ -11,12 +11,12 @@
 #         addPrisoner()
 #
 #DONE NOT TESTED
-def testMove(board, piece, endx, endy, testno):
-    if isGoodMove(board, piece, endx, endy):
-        print("Good Move")
-    else:
-        print("Piece won't move: "+piece.type+str(testno))
-        print("from "+str(piece.x)+', '+str(piece.y)+' to '+str(endx)+', '+str(endy))
+# def testMove(board, piece, endx, endy, testno):
+#     if isGoodMove(board, piece, endx, endy):
+#         print("Good Move")
+#     else:
+#         print("Piece won't move: "+piece.type+str(testno))
+#         print("from "+str(piece.x)+', '+str(piece.y)+' to '+str(endx)+', '+str(endy))
 #DONE NOT TESTED
 def updateBoard(board, movepiece, endx, endy, capture, prisonerList):
     #At this point, the move should be legal,
@@ -35,11 +35,12 @@ def updateBoard(board, movepiece, endx, endy, capture, prisonerList):
             return board
         else:
             print("Cannot find piece to move")
-#FINISH CASTLE STYLE MOVEMENT
+#DONE NOT TESTED
 def maybeInTheWay(board, piece, endx, endy):
 #return 1 = good move, nothing in the way
 #return 2 = capturing piece
-#return 3 = team piece in the way
+#return 3 = team piece in the spot
+#return 4 = piece in the way-between
     type = piece.type
     xfactor = 1
     yfactor = 1
@@ -48,17 +49,49 @@ def maybeInTheWay(board, piece, endx, endy):
     if type ==("bishop") or ("castle") or ("queen"):
         deltax = endx - piece.x
         deltay = endy - piece.y
-        #castle Style movement
-        if(deltax == 0 and deltay != 0) or (deltax != 0 and deltay == 0):
-            pass
-        #bishop style movement
+        iterx = piece.x
+        itery = piece.y
         if deltax < 0:
             xfactor = -1
         if deltay < 0:
             yfactor = -1
+
+        #DONE NOT TESTED
+        #castle Style movement
+        #same x position
+        #print("Castle Style Movement: y movement")
+        if(deltax == 0 and deltay != 0):
+            for i in range(0, abs(deltay)):
+                if(itery == endy): #the final location is checked later on
+                    break
+                else:
+                    for p in board:
+                        if(p.x == iterx) and (p.y == itery):
+                            return 4
+                        else:
+                            itery = itery + (yfactor*1)
+        #DONE NOT TESTED
+        #same y position
+        elif (deltax != 0 and deltay == 0):
+            #print("Castle Style Movement: x movement")
+            for i in range(0, abs(deltax)):
+                if(iterx == endx): #the final location is checked later on
+                    break
+                else:
+                    for p in board:
+                        if(p.x == iterx) and (p.y == itery):
+                            return 4
+                        else:
+                            iterx = iterx + (xfactor*1)
+        #DONE NOT TESTED
+        #bishop style movement
+        #check the correct diagonal from starting pos
+        #print("Bishop Style Movement")
         iterx = piece.x
         itery = piece.y
-        #check the correct diagonal from starting pos
+        #print("starting Location: iterx: "+str(iterx)+" itery: "+str(itery))
+        iterx = iterx + (xfactor*1)
+        itery = itery + (yfactor*1)
         for i in range(0, abs(deltax)):
             #not checking the last location, next part of function does that
             if (iterx == endx) and (itery == endy):
@@ -67,12 +100,14 @@ def maybeInTheWay(board, piece, endx, endy):
                 #check to see if there is a piece in the between location
                 for p in board:
                     if(p.x == iterx) and (p.y == itery):
+                        #print("Failing Location: iterx: "+str(iterx)+" itery: "+str(itery))
                         return 4
-                    else:
-                        iterx = iterx + (xfactor*1)
-                        itery = itery + (yfactor*1)
+                else:
+                    iterx = iterx + (xfactor*1)
+                    itery = itery + (yfactor*1)
 
 
+    #DONE NOT TESTED
     #check final Location for all pieces
     for p in board:
         if (p.x == endx) and (p.y == endy):
@@ -80,8 +115,12 @@ def maybeInTheWay(board, piece, endx, endy):
                 #team piece is in the way
                 return 3
             else:
-                #capturing opposing team piece
+                #capturing opposing team piece for pawn
                 return 2
+
+    #DONE NOT TESTED
+    #nothing in the way
+    return 1
 #DONE TESTED!
 def isBishopMove(piece, endx, endy):
     absdx = abs(endx-piece.x)
@@ -165,9 +204,6 @@ def isInMoveSet(piece, capture, endx, endy):
             return True
         else:
             return False
-#MIGHT ONLY NEED THIS FOR PAWN MOVESET
-def isCapturing():
-    pass
 #DONE NOT TESTED
 def areBothKingsAlive(board):
     white = False
