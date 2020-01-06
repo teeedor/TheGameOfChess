@@ -44,26 +44,33 @@ def maybeInTheWay(board, piece, endx, endy):
     type = piece.type
     xfactor = 1
     yfactor = 1
-
     #check the path
     if type ==("bishop") or ("castle") or ("queen"):
+        VERBOSE = False
         deltax = endx - piece.x
         deltay = endy - piece.y
+        #start the iterater at the current piece location
         iterx = piece.x
         itery = piece.y
         if deltax < 0:
             xfactor = -1
         if deltay < 0:
             yfactor = -1
-
+        if(VERBOSE):
+            print(deltax)
+            print(deltay)
         #DONE NOT TESTED
         #castle Style movement
         #same x position
-        #print("Castle Style Movement: y movement")
+        #TEST SECTION 1
         if(deltax == 0 and deltay != 0):
+            if(VERBOSE):
+                print("Castle Style Movement: y movement")
             for i in range(0, abs(deltay)):
+                if(VERBOSE):
+                    print(i)
                 if(itery == endy): #the final location is checked later on
-                    break
+                    pass
                 else:
                     for p in board:
                         if(p.x == iterx) and (p.y == itery):
@@ -73,20 +80,23 @@ def maybeInTheWay(board, piece, endx, endy):
         #DONE NOT TESTED
         #same y position
         elif (deltax != 0 and deltay == 0):
-            #print("Castle Style Movement: x movement")
+            if(VERBOSE):
+                print("Castle Style Movement: x movement")
             for i in range(0, abs(deltax)):
                 if(iterx == endx): #the final location is checked later on
-                    break
+                    pass
                 else:
                     for p in board:
                         if(p.x == iterx) and (p.y == itery):
                             return 4
                         else:
                             iterx = iterx + (xfactor*1)
+        #TEST SECTION 2
         #DONE NOT TESTED
         #bishop style movement
         #check the correct diagonal from starting pos
-        #print("Bishop Style Movement")
+        if(VERBOSE):
+            print("Bishop Style Movement")
         iterx = piece.x
         itery = piece.y
         #print("starting Location: iterx: "+str(iterx)+" itery: "+str(itery))
@@ -95,7 +105,7 @@ def maybeInTheWay(board, piece, endx, endy):
         for i in range(0, abs(deltax)):
             #not checking the last location, next part of function does that
             if (iterx == endx) and (itery == endy):
-                break
+                pass
             else:
                 #check to see if there is a piece in the between location
                 for p in board:
@@ -106,9 +116,11 @@ def maybeInTheWay(board, piece, endx, endy):
                     iterx = iterx + (xfactor*1)
                     itery = itery + (yfactor*1)
 
-
+    #TEST SECTION 3
     #DONE NOT TESTED
     #check final Location for all pieces
+    if(VERBOSE):
+        print("Final Location")
     for p in board:
         if (p.x == endx) and (p.y == endy):
             if piece.color == p.color:
